@@ -277,7 +277,7 @@ top_srcdir = @top_srcdir@
 @HAVE_PYTHON_DEVEL_TRUE@@HAVE_SWIG_TRUE@pyexec_LTLIBRARIES = _saslwrapper.la
 @HAVE_PYTHON_DEVEL_TRUE@@HAVE_SWIG_TRUE@_saslwrapper_la_LDFLAGS = -avoid-version -module -shared
 @HAVE_PYTHON_DEVEL_TRUE@@HAVE_SWIG_TRUE@_saslwrapper_la_LIBADD = $(PYTHON_LIBS) $(top_builddir)/src/libsaslwrapper.la -lsasl2
-@HAVE_PYTHON_DEVEL_TRUE@@HAVE_SWIG_TRUE@_saslwrapper_la_CXXFLAGS = -I$(PYTHON_INC)
+@HAVE_PYTHON_DEVEL_TRUE@@HAVE_SWIG_TRUE@_saslwrapper_la_CXXFLAGS = -I$(PYTHON_INC) -fno-strict-aliasing
 @HAVE_PYTHON_DEVEL_TRUE@@HAVE_SWIG_TRUE@nodist__saslwrapper_la_SOURCES = saslwrapper.cpp
 @HAVE_PYTHON_DEVEL_TRUE@@HAVE_SWIG_TRUE@CLEANFILES = $(generated_file_list)
 all: $(BUILT_SOURCES)

@@ -3,15 +3,15 @@
 %{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"]')}
 
 Name:           saslwrapper
-Version:        0.1.934605
+Version:        0.10
 Release:        2%{?dist}
 Summary:        Ruby and Python wrappers for the cyrus sasl library.
 Group:          System Environment/Libraries
 License:        ASL 2.0
 URL:            http://qpid.apache.org
 Source0:        %{name}-%{version}.tar.gz
-Patch0:         decode_overflow.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+ExclusiveArch:  i686 x86_64
 
 BuildRequires: doxygen
 BuildRequires: libtool
@@ -57,7 +57,6 @@ Ruby bindings for the saslwrapper library.
 
 %prep
 %setup -q
-%patch0 -p5
 
 %build
 %configure
@@ -98,6 +97,13 @@ make check
 %ruby_sitearch/saslwrapper.so
 
 %changelog
+* Tue Apr 12 2011 Ted Ross <tross@redhat.com> - 0.10-2
+- Related: rhbz#693862
+- Added ExclusiveArch: i686 x86_64
+
+* Wed Apr  6 2011 Justin Ross <jross@redhat.com> - 0.10-1
+- Rebased to 0.10, svn revision 1083082
+
 * Fri May 28 2010 Justin Ross <jross@redhat.com> - 0.1.934605-2
 - Resolves: rhbz#597290
 
