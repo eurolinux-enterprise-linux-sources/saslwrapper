@@ -1,3 +1,4 @@
+#!/bin/sh
 #
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -16,28 +17,17 @@
 # specific language governing permissions and limitations
 # under the License.
 #
+set -e
+aclocal -I m4
+autoheader
+libtoolize --automake
 
-if HAVE_SWIG
-if HAVE_PYTHON_DEVEL
+automake --add-missing
+autoconf
 
-EXTRA_DIST = python.i
-INCLUDES = -I$(top_srcdir)/include
-
-generated_file_list = saslwrapper.cpp saslwrapper.py
-BUILT_SOURCES = $(generated_file_list)
-
-$(generated_file_list): python.i $(top_srcdir)/src/saslwrapper.i
-	$(SWIG) -c++ -python -Wall -I/usr/include $(INCLUDES) -o saslwrapper.cpp $(srcdir)/python.i
-
-pyexec_PYTHON = saslwrapper.py
-pyexec_LTLIBRARIES = _saslwrapper.la
-
-_saslwrapper_la_LDFLAGS = -avoid-version -module -shared
-_saslwrapper_la_LIBADD = $(PYTHON_LIBS) $(top_builddir)/src/libsaslwrapper.la -lsasl2
-_saslwrapper_la_CXXFLAGS = -I$(PYTHON_INC) -fno-strict-aliasing
-nodist__saslwrapper_la_SOURCES = saslwrapper.cpp
-
-CLEANFILES = $(generated_file_list)
-
-endif
-endif
+if [ "$1" = "-build" -o "$1" = "--build" ] ; then
+    shift
+    ./configure "$@"
+    make
+    make check
+fi

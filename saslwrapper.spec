@@ -3,15 +3,18 @@
 %{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"]')}
 
 Name:           saslwrapper
-Version:        0.10
-Release:        2%{?dist}
+Version:        0.14
+Release:        1%{?dist}
 Summary:        Ruby and Python wrappers for the cyrus sasl library.
 Group:          System Environment/Libraries
 License:        ASL 2.0
 URL:            http://qpid.apache.org
+# svn export -r 1209041 https://svn.apache.org/repos/asf/qpid/branches/0.14/qpid/extras/sasl saslwrapper-0.14
+# tar -cvzf saslwrapper-0.14.tar.gz saslwrapper-0.14
 Source0:        %{name}-%{version}.tar.gz
+Patch0:         configure.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-ExclusiveArch:  i686 x86_64
+#ExclusiveArch:  i686 x86_64
 
 BuildRequires: doxygen
 BuildRequires: libtool
@@ -57,8 +60,10 @@ Ruby bindings for the saslwrapper library.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+./bootstrap
 %configure
 make %{?_smp_mflags}
 
@@ -89,7 +94,7 @@ make check
 
 %files -n python-saslwrapper
 %defattr(-,root,root,-)
-%python_sitelib/saslwrapper.py*
+%python_sitearch/saslwrapper.py*
 %python_sitearch/_saslwrapper.so
 
 %files -n ruby-saslwrapper
@@ -97,6 +102,14 @@ make check
 %ruby_sitearch/saslwrapper.so
 
 %changelog
+* Mon Apr  2 2012 Nuno Santos <nsantos@redhat.com> - 0.14-1
+- Rebased to official upstream 0.14 release
+- Resolves: rhbz#808783
+
+* Mon Aug  8 2011 Justin Ross <jross@redhat.com> - 0.12-1
+- Rebased to 0.12, svn revision 1154981
+- Resolves: bz706996
+
 * Tue Apr 12 2011 Ted Ross <tross@redhat.com> - 0.10-2
 - Related: rhbz#693862
 - Added ExclusiveArch: i686 x86_64

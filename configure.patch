@@ -1,0 +1,11 @@
+diff -U3 -r saslwrapper-0.14/configure.ac saslwrapper-trunk/configure.ac
+--- saslwrapper-0.14/configure.ac	2011-04-27 13:02:40.687177000 -0400
++++ saslwrapper-trunk/configure.ac	2011-12-07 15:08:19.452121000 -0500
+@@ -23,6 +23,7 @@
+ AC_PROG_CC_STDC
+ AM_PROG_CC_C_O
+ AC_PROG_CXX
++AC_USE_SYSTEM_EXTENSIONS
+ AC_LANG([C++])	
+ 
+ # Check for optional use of help2man
